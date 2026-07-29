@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  lucide.createIcons();
+  window.lucide?.createIcons();
 
   const header = document.getElementById('header');
   const hero = document.querySelector('.hero');
@@ -395,131 +395,38 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => navObs.observe(section));
   }
 
-  const galleryModal = document.getElementById('galleryModal');
-  const galleryBackdrop = document.getElementById('galleryModalBackdrop');
-  const galleryClose = document.getElementById('galleryClose');
-  const galleryPrev = document.getElementById('galleryPrev');
-  const galleryNext = document.getElementById('galleryNext');
-  const galleryImg = document.getElementById('galleryModalImg');
-  const galleryTitle = document.getElementById('galleryModalTitle');
-  const galleryCounter = document.getElementById('galleryModalCounter');
-  const galleryThumbs = document.getElementById('galleryThumbs');
-
-  let currentGalleryImages = [];
-  let currentGalleryTitle = '';
-  let currentGalleryIndex = 0;
-
-  function renderGalleryImage() {
-    if (!galleryImg || !currentGalleryImages.length) return;
-
-    galleryImg.src = currentGalleryImages[currentGalleryIndex];
-    galleryImg.alt = `${currentGalleryTitle} - imagem ${currentGalleryIndex + 1}`;
-
-    if (galleryTitle) {
-      galleryTitle.textContent = currentGalleryTitle;
-    }
-
-    if (galleryCounter) {
-      galleryCounter.textContent = `${currentGalleryIndex + 1} / ${currentGalleryImages.length}`;
-    }
-
-    if (galleryThumbs) {
-      const thumbs = galleryThumbs.querySelectorAll('.gallery-thumb');
-      thumbs.forEach((thumb, index) => {
-        thumb.classList.toggle('active', index === currentGalleryIndex);
-      });
-    }
-  }
-
-  function buildGalleryThumbs() {
-    if (!galleryThumbs) return;
-
-    galleryThumbs.innerHTML = '';
-
-    currentGalleryImages.forEach((src, index) => {
-      const btn = document.createElement('button');
-      btn.className = 'gallery-thumb';
-      btn.type = 'button';
-      btn.setAttribute('aria-label', `Abrir imagem ${index + 1}`);
-
-      if (index === currentGalleryIndex) {
-        btn.classList.add('active');
-      }
-
-      btn.innerHTML = `<img src="${src}" alt="${currentGalleryTitle} miniatura ${index + 1}">`;
-
-      btn.addEventListener('click', () => {
-        currentGalleryIndex = index;
-        renderGalleryImage();
-      });
-
-      galleryThumbs.appendChild(btn);
-    });
-  }
-
-  function openGallery(images, title, startIndex = 0) {
-    if (!galleryModal || !images.length) return;
-
-    currentGalleryImages = images;
-    currentGalleryTitle = title || 'Galeria do Projeto';
-    currentGalleryIndex = startIndex;
-
-    buildGalleryThumbs();
-    renderGalleryImage();
-
-    galleryModal.classList.add('active');
-    galleryModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeGallery() {
-    if (!galleryModal) return;
-
-    galleryModal.classList.remove('active');
-    galleryModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  function nextGalleryImage() {
-    if (!currentGalleryImages.length) return;
-    currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
-    renderGalleryImage();
-  }
-
-  function prevGalleryImage() {
-    if (!currentGalleryImages.length) return;
-    currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-    renderGalleryImage();
-  }
+  const projectPages = {
+    'balneario-camboriu': 'obras/balneario/',
+    'jardim-samambaia': 'obras/jardimsamambaia/',
+    'reforma-vinhedo': 'obras/CondominioVinhedo/',
+    'casa-academia-jundiai': 'obras/casajundiaiacademia/',
+    'alto-padrao-alta-vista-jundiai': 'obras/altopadraoaltavista/',
+    'casa-sao-joaquim': 'obras/CasaSaoJoaquim/',
+    'redevoa-ribeirao-preto': 'obras/redevoa/',
+    'mormai-jundiai': 'obras/mormai-jundiai/',
+    'gpa-obras-1': 'obras/GPA/',
+    'gpa-obras-2': 'obras/GPA2/',
+    'gpa-obras-3': 'obras/GPA3/',
+    'maple-bear-jundiai': 'obras/maplebearjundiai/',
+    'swift-atibaia': 'obras/SwiftAtibaia/'
+  };
 
   document.querySelectorAll('.project-gallery-trigger').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      let images = [];
-      const title = trigger.dataset.title || 'Galeria do Projeto';
+    const projectUrl = projectPages[trigger.dataset.gallery];
+    if (!projectUrl) return;
 
-      try {
-        images = JSON.parse(trigger.dataset.images || '[]');
-      } catch (error) {
-        console.error('Erro ao ler data-images da galeria:', error);
-      }
+    trigger.tabIndex = 0;
+    trigger.setAttribute('role', 'link');
+    trigger.setAttribute('aria-label', `Ver detalhes de ${trigger.dataset.title || 'projeto'}`);
 
-      if (images.length) {
-        openGallery(images, title, 0);
+    const openProject = () => window.location.href = projectUrl;
+    trigger.addEventListener('click', openProject);
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openProject();
       }
     });
-  });
-
-  galleryClose?.addEventListener('click', closeGallery);
-  galleryBackdrop?.addEventListener('click', closeGallery);
-  galleryNext?.addEventListener('click', nextGalleryImage);
-  galleryPrev?.addEventListener('click', prevGalleryImage);
-
-  document.addEventListener('keydown', (e) => {
-    if (!galleryModal || !galleryModal.classList.contains('active')) return;
-
-    if (e.key === 'Escape') closeGallery();
-    if (e.key === 'ArrowRight') nextGalleryImage();
-    if (e.key === 'ArrowLeft') prevGalleryImage();
   });
 
   const statNumbers = document.querySelectorAll('.stat-number');
