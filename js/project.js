@@ -9,6 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const imagePath = (image) => image;
+  const projectRoutes = [
+    ['balneario', 'balneario'],
+    ['jardimsamambaia', 'jardimsamambaia'],
+    ['condominiovinhedo', 'CondominioVinhedo'],
+    ['casajundiaiacademia', 'casajundiaiacademia'],
+    ['altopadraoaltavista', 'altopadraoaltavista'],
+    ['casasaojoaquim', 'CasaSaoJoaquim'],
+    ['redevoa', 'redevoa'],
+    ['mormai-jundiai', 'mormai-jundiai'],
+    ['gpa', 'GPA'],
+    ['gpa2', 'GPA2'],
+    ['gpa3', 'GPA3'],
+    ['maplebearjundiai', 'maplebearjundiai'],
+    ['swiftatibaia', 'SwiftAtibaia']
+  ];
+  const currentProjectIndex = projectRoutes.findIndex(([projectKey]) => projectKey === key);
+  const previousProjectEntry = projectRoutes[(currentProjectIndex - 1 + projectRoutes.length) % projectRoutes.length];
+  const nextProjectEntry = projectRoutes[(currentProjectIndex + 1) % projectRoutes.length];
+  const previousProject = window.MAIS_PROJECTS[previousProjectEntry[0]];
+  const nextProject = window.MAIS_PROJECTS[nextProjectEntry[0]];
   const whatsapp = 'https://wa.me/5534998887604?text=' + encodeURIComponent(`Olá! Vi o projeto ${project.title} no site da Mais Soluções e gostaria de mais informações.`);
   document.title = `${project.title} | Mais Soluções`;
   const descriptionMeta = document.querySelector('meta[name="description"]');
@@ -32,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   root.innerHTML = `
     <div class="project-shell">
       <header class="project-header" id="projectHeader">
+        <div class="project-scroll-progress" aria-hidden="true"><span id="projectScrollProgress"></span></div>
         <div class="project-container project-header-inner">
           <a class="project-logo" href="../../index.html" aria-label="Mais Soluções — início"><img src="../../logo.png" alt="Mais Soluções"></a>
           <a class="project-back" href="../../index.html#projetos"><i data-lucide="arrow-left"></i><span>Voltar aos projetos</span></a>
@@ -67,18 +88,40 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="project-grid">${project.images.map((image, index) => `<button class="project-photo" type="button" data-index="${index}" aria-label="Ampliar imagem ${index + 1} de ${project.images.length}"><img src="${imagePath(image)}" alt="${project.title} — imagem ${index + 1}" loading="${index < 3 ? 'eager' : 'lazy'}"></button>`).join('')}</div>
             </section>
             <aside class="project-cta project-reveal"><div><h2>Tem um projeto semelhante?</h2><p>Converse com nossa equipe sobre planejamento, execução e possibilidades.</p></div><a class="project-cta-button" href="${whatsapp}" target="_blank" rel="noopener">Falar com especialista <i data-lucide="arrow-up-right"></i></a></aside>
+            <nav class="project-pagination project-reveal" aria-label="Navegação entre projetos">
+              <a class="project-pagination-card project-pagination-card--previous" href="../${previousProjectEntry[1]}/">
+                <img src="../${previousProjectEntry[1]}/${previousProject.images[0]}" alt="" loading="lazy">
+                <span class="project-pagination-overlay"></span>
+                <span class="project-pagination-content"><small><i data-lucide="arrow-left"></i> Projeto anterior</small><strong>${previousProject.title}</strong></span>
+              </a>
+              <a class="project-pagination-card project-pagination-card--next" href="../${nextProjectEntry[1]}/">
+                <img src="../${nextProjectEntry[1]}/${nextProject.images[0]}" alt="" loading="lazy">
+                <span class="project-pagination-overlay"></span>
+                <span class="project-pagination-content"><small>Próximo projeto <i data-lucide="arrow-right"></i></small><strong>${nextProject.title}</strong></span>
+              </a>
+            </nav>
           </div>
         </section>
       </main>
       <footer class="project-footer"><div class="project-container project-footer-inner"><span>© 2026 Mais Soluções Engenharia</span><a href="mailto:comercial@maissolucoes.eng.br">comercial@maissolucoes.eng.br</a></div></footer>
     </div>
+    <button class="project-to-top" id="projectToTop" type="button" aria-label="Voltar ao início"><i data-lucide="arrow-up"></i></button>
     <div class="project-lightbox" id="projectLightbox" aria-hidden="true"><div class="project-lightbox-backdrop" data-close></div><div class="project-lightbox-content" role="dialog" aria-modal="true" aria-label="Visualização ampliada"><button class="project-lightbox-close" type="button" aria-label="Fechar" data-close><i data-lucide="x"></i></button><button class="project-lightbox-nav project-lightbox-prev" type="button" aria-label="Imagem anterior"><i data-lucide="chevron-left"></i></button><img class="project-lightbox-image" alt=""><button class="project-lightbox-nav project-lightbox-next" type="button" aria-label="Próxima imagem"><i data-lucide="chevron-right"></i></button><span class="project-lightbox-caption"></span></div></div>`;
 
   window.lucide?.createIcons();
   const header = document.getElementById('projectHeader');
-  const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
+  const progressBar = document.getElementById('projectScrollProgress');
+  const toTopButton = document.getElementById('projectToTop');
+  const updateHeader = () => {
+    header?.classList.toggle('scrolled', window.scrollY > 24);
+    toTopButton?.classList.toggle('visible', window.scrollY > window.innerHeight * .75);
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+    if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+  };
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
+  toTopButton?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
   const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
     if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }

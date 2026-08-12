@@ -264,12 +264,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const tabList = document.querySelector('.projetos-tabs');
+  tabList?.setAttribute('role', 'tablist');
   document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', btn.classList.contains('active') ? 'true' : 'false');
+    btn.setAttribute('aria-controls', `panel-${btn.dataset.tab}`);
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
 
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
 
       document.querySelectorAll('.tab-panel').forEach(panel => {
         panel.classList.remove('active');
@@ -427,6 +436,22 @@ document.addEventListener('DOMContentLoaded', () => {
         openProject();
       }
     });
+  });
+
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    panel.setAttribute('role', 'tabpanel');
+  });
+
+  tabList?.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    const tabs = Array.from(tabList.querySelectorAll('.tab-btn'));
+    const currentIndex = tabs.indexOf(document.activeElement);
+    if (currentIndex < 0) return;
+    event.preventDefault();
+    const direction = event.key === 'ArrowRight' ? 1 : -1;
+    const nextTab = tabs[(currentIndex + direction + tabs.length) % tabs.length];
+    nextTab.focus();
+    nextTab.click();
   });
 
   const statNumbers = document.querySelectorAll('.stat-number');
