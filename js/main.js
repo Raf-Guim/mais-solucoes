@@ -419,7 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
     'gpa-obras-2': 'obras/GPA2/',
     'gpa-obras-3': 'obras/GPA3/',
     'maple-bear-jundiai': 'obras/maplebearjundiai/',
-    'swift-atibaia': 'obras/SwiftAtibaia/'
+    'swift-atibaia': 'obras/SwiftAtibaia/',
+    'swift-jandira': 'obras/SwiftJandira/'
   };
 
   document.querySelectorAll('.project-gallery-trigger').forEach(trigger => {

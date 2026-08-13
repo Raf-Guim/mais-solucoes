@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ['gpa2', 'GPA2'],
     ['gpa3', 'GPA3'],
     ['maplebearjundiai', 'maplebearjundiai'],
-    ['swiftatibaia', 'SwiftAtibaia']
+    ['swiftatibaia', 'SwiftAtibaia'],
+    ['swiftjandira', 'SwiftJandira']
   ];
   const currentProjectIndex = projectRoutes.findIndex(([projectKey]) => projectKey === key);
   const previousProjectEntry = projectRoutes[(currentProjectIndex - 1 + projectRoutes.length) % projectRoutes.length];
