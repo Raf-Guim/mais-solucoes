@@ -125,15 +125,9 @@ button {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  transform: translateY(0);
   transition:
-    transform var(--t-med) var(--ease),
     background var(--t-med) var(--ease),
     backdrop-filter var(--t-med) var(--ease);
-}
-
-.site-header.header-hidden {
-  transform: translateY(calc(-100% - 8px));
 }
 
 .site-header.scrolled {
@@ -345,25 +339,6 @@ button {
   object-position: left center;
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(6, 20, 45, 0.08) 0%,
-      rgba(6, 20, 45, 0.02) 42%,
-      rgba(6, 20, 45, 0.14) 72%,
-      rgba(6, 20, 45, 0.4) 100%
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      transparent 58%,
-      rgba(6, 20, 45, 0.08) 100%
-    );
-}
-
 .hero-content {
   position: relative;
   z-index: 2;
@@ -547,13 +522,13 @@ button {
 }
 
 .site-header.at-hero .logo {
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .site-header.at-hero .logo-img {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
 }
 
 .logo,
@@ -561,8 +536,13 @@ button {
   min-height: 0;
 }
 
+.logo {
+  margin-left: 10px;
+}
+
 .logo-img {
-  height: 56px;
+  height: 46px;
+  filter: brightness(0) invert(1);
 }
 
 .main-nav {
@@ -1196,7 +1176,7 @@ button {
 }
 
 .servico-img--planning {
-  object-position: 72% center;
+  object-position: 0% 42%;
 }
 
 .link-arrow {
@@ -2286,13 +2266,13 @@ button {
   }
 
   .logo-img {
-    height: 46px;
+    height: 40px;
     width: auto;
     object-fit: contain;
   }
 
   .site-header.at-hero .logo-img {
-    opacity: 1;
+    opacity: 0;
   }
 
   .section {
@@ -2642,4 +2622,148 @@ button {
   min-height: 56px;
   border-radius: 14px;
   box-shadow: 0 16px 36px rgba(3, 12, 28, 0.2);
+}
+
+/* ==========================================================
+   Hero — Logo | Obra em destaque (Swift Jandira) | Contato
+   ========================================================== */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 130px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-brand-col {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+}
+
+.hero-brand-img {
+  width: min(200px, 16vw);
+  height: auto;
+  filter: drop-shadow(0 2px 10px rgba(3, 12, 28, 0.45));
+}
+
+.hero-media-col {
+  width: 100%;
+  max-width: 680px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.hero-media-frame {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--bg-raised);
+  box-shadow: 0 30px 70px rgba(3, 12, 28, 0.3);
+}
+
+.hero-media-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.hero-media-img.is-active {
+  opacity: 1;
+}
+
+.hero-media-badge {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 2;
+  padding: 9px 16px;
+  background: rgba(8, 22, 48, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.hero-media-col .hero-actions {
+  margin-bottom: 0;
+}
+
+.hero-actions .btn-secondary--light {
+  background: var(--white);
+  color: var(--text-main);
+  border-color: var(--border-hover);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hero-actions .btn-secondary--light:hover {
+  background: var(--brand-soft);
+  border-color: var(--brand-light);
+  color: var(--text-main);
+}
+
+@media (max-width: 1000px) {
+  .hero-inner {
+    padding: 150px 24px 36px;
+    gap: 28px;
+  }
+
+  .hero-brand-col {
+    position: static;
+    transform: none;
+  }
+
+  .hero-brand-img {
+    width: min(180px, 50vw);
+  }
+
+  .hero-media-frame {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-inner {
+    padding: 130px 16px 30px;
+    gap: 22px;
+  }
+
+  .hero-brand-img {
+    width: min(150px, 45vw);
+  }
+
+  .hero-media-frame {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+  }
+
+  .hero-media-badge {
+    left: 12px;
+    bottom: 12px;
+    padding: 7px 13px;
+    font-size: 9px;
+  }
 }

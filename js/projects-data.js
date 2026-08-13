@@ -91,5 +91,12 @@ window.MAIS_PROJECTS = {
     description: 'A obra incluiu construção civil, instalações elétricas e hidráulicas, proteção e combate a incêndios, CFTV, sonorização, esquadrias de alumínio, cobertura metálica e impermeabilizações. A unidade foi executada desde a movimentação de terra até os acabamentos finais.',
     highlights: ['1.220 m² de terreno', '505 m² de área construída', '815 m³ de movimentação de terra', '195 m³ de concreto moldado in loco', '707 m² de alvenaria', '232 m² de cobertura metálica', '1.100 m² de piso intertravado e concreto', '906 m² de revestimentos', '860 m² de pintura'],
     images: ['swiftatibaia-1.jpeg','swiftatibaia-2.jpeg','swiftatibaia-3.jpeg','swiftatibaia-4.jpeg','swiftatibaia-5.jpeg','swiftatibaia-6.jpeg','swiftatibaia-7.jpeg']
+  },
+  swiftjandira: {
+    title: 'Swift Jandira', category: 'Varejo', location: 'Jandira, SP',
+    summary: 'Construção de nova unidade Swift em Jandira, seguindo o padrão construtivo da rede.',
+    description: 'A obra compreende a construção de uma nova loja Swift, com execução de estrutura, instalações elétricas e hidráulicas, cobertura metálica, esquadrias e acabamentos até a entrega final da unidade.',
+    highlights: ['Construção de prédio comercial novo', 'Estrutura, instalações elétricas e hidráulicas', 'Cobertura metálica e esquadrias de alumínio', 'Acabamentos e entrega da unidade padronizada Swift'],
+    images: ['1.png','2.png','3.png','4.png']
   }
 };

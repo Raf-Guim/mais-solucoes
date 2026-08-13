@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=14">
 </head>
 <body>
   <div class="noise-overlay"></div>
@@ -63,13 +63,27 @@
   <section class="hero" id="hero">
     <div class="hero-bg">
       <img src="herosite.png" alt="Mais Soluções — Tecnologia e Engenharia" class="hero-bg-img">
-      <div class="hero-overlay"></div>
     </div>
 
-    <div class="hero-content">
-      <div class="hero-actions anim-up" data-delay="550">
-        <a href="#contato" class="btn-primary">Falar com Especialista</a>
-        <a href="#projetos" class="btn-secondary">Ver Projetos</a>
+    <div class="hero-inner">
+      <div class="hero-brand-col anim-left" data-delay="150">
+        <img src="logo.png" alt="Mais Soluções — Tecnologia e Engenharia" class="hero-brand-img">
+      </div>
+
+      <div class="hero-media-col anim-zoom" data-delay="350">
+        <div class="hero-media-frame" id="heroMediaFrame">
+          <img src="obras/SwiftJandira/1.png" alt="Obra Swift — Jandira/SP" class="hero-media-img is-active">
+          <img src="obras/SwiftJandira/2.png" alt="Obra Swift — Jandira/SP" class="hero-media-img">
+          <img src="obras/SwiftJandira/3.png" alt="Obra Swift — Jandira/SP" class="hero-media-img">
+          <img src="obras/SwiftJandira/4.png" alt="Obra Swift — Jandira/SP" class="hero-media-img">
+
+          <span class="hero-media-badge">Obra em destaque · Swift — Jandira/SP</span>
+        </div>
+
+        <div class="hero-actions anim-up" data-delay="150">
+          <a href="#contato" class="btn-primary">Falar com Especialista</a>
+          <a href="#projetos" class="btn-secondary btn-secondary--light">Ver Projetos</a>
+        </div>
       </div>
     </div>
 
@@ -262,7 +276,7 @@
     </div>
   </section>
 
-  <section class="section section--dark" id="projetos">
+  <section class="section section--base" id="projetos">
     <div class="container">
       <div class="section-header anim-up">
         <span class="section-tag">Projetos em Destaque</span>
@@ -609,6 +623,28 @@
                     <p class="carousel-text">Construção de uma loja Swift de 505 m², com estrutura, instalações, cobertura e mais de 1.100 m² de pisos externos.</p>
                   </div>
                 </div>
+
+                <div class="carousel-slide">
+                  <img
+                    src="obras/SwiftJandira/1.png"
+                    alt="Swift Jandira"
+                    class="carousel-img project-gallery-trigger"
+                    loading="lazy"
+                    data-gallery="swift-jandira"
+                    data-title="Swift Jandira"
+                    data-images='[
+                      "obras/SwiftJandira/1.png",
+                      "obras/SwiftJandira/2.png",
+                      "obras/SwiftJandira/3.png",
+                      "obras/SwiftJandira/4.png"
+                    ]'
+                  >
+                  <div class="carousel-caption">
+                    <span class="carousel-cat">Industrial & Varejo</span>
+                    <h4 class="carousel-title">Swift Jandira</h4>
+                    <p class="carousel-text">Construção de uma nova unidade Swift em Jandira/SP, da estrutura aos acabamentos finais.</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -724,7 +760,6 @@
         <div class="footer-brand anim-left">
           <img src="logo.png" alt="Mais Soluções" class="footer-logo">
           <p class="footer-tagline">Excelência que se soma em cada entrega.</p>
-          <a href="https://maissolucoes.engtec.br" class="footer-domain">maissolucoes.engtec.br</a>
         </div>
 
         <div class="footer-col footer-nav-col anim-up">
@@ -769,6 +804,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=2"></script>
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>

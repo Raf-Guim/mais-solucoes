@@ -5,29 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const hero = document.querySelector('.hero');
   const mobileToggle = document.getElementById('mobileMenuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
-  let lastScrollY = window.scrollY;
 
   function updateHeaderState() {
     if (!header) return;
 
     const currentScrollY = window.scrollY;
     const isScrolled = currentScrollY > 50;
-    const isAtHero = currentScrollY < window.innerHeight * 0.55;
-    const scrollingDown = currentScrollY > lastScrollY;
-    const scrollingUp = currentScrollY < lastScrollY;
+    const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
+    const isAtHero = currentScrollY < heroHeight;
 
     header.classList.toggle('scrolled', isScrolled);
     header.classList.toggle('at-hero', isAtHero);
-
-    if (isAtHero || currentScrollY < 120) {
-      header.classList.remove('header-hidden');
-    } else if (scrollingDown && currentScrollY > 220) {
-      header.classList.add('header-hidden');
-    } else if (scrollingUp) {
-      header.classList.remove('header-hidden');
-    }
-
-    lastScrollY = currentScrollY;
   }
 
   updateHeaderState();
@@ -79,6 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       hero.classList.add('loaded');
     }, 150);
+  }
+
+  // Hero — rotação das fotos da obra em destaque (Swift Jandira)
+  const heroMediaImgs = document.querySelectorAll('#heroMediaFrame .hero-media-img');
+
+  if (heroMediaImgs.length > 1) {
+    let heroMediaIndex = Array.from(heroMediaImgs).findIndex(img => img.classList.contains('is-active'));
+    if (heroMediaIndex < 0) heroMediaIndex = 0;
+
+    setInterval(() => {
+      heroMediaImgs[heroMediaIndex].classList.remove('is-active');
+      heroMediaIndex = (heroMediaIndex + 1) % heroMediaImgs.length;
+      heroMediaImgs[heroMediaIndex].classList.add('is-active');
+    }, 4200);
   }
 
   const reveals = document.querySelectorAll(
