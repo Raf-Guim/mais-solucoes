@@ -515,12 +515,6 @@ button {
   transition: background var(--t-med) var(--ease), border-color var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
 }
 
-.site-header.at-hero .header-inner {
-  background: rgba(8, 22, 48, 0.34);
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 18px 50px rgba(3, 12, 28, 0.08);
-}
-
 .site-header.at-hero .logo {
   pointer-events: none;
 }
@@ -2344,13 +2338,17 @@ button {
   }
 
   .hero-contact {
-    right: 18px;
-    left: 18px;
-    bottom: 18px;
+    position: static;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    width: calc(100% - 32px);
+    max-width: 360px;
     min-width: auto;
-    padding: 18px;
-    gap: 12px;
-    border-radius: 16px;
+    margin: 14px auto 0;
+    padding: 12px 14px;
+    gap: 6px;
+    border-radius: 12px;
   }
 
   .hero-scroll-cue {
@@ -2358,17 +2356,18 @@ button {
   }
 
   .hero-contact-label {
-    font-size: 11px;
+    font-size: 9px;
+    margin-bottom: 2px;
   }
 
   .hero-contact-item {
-    font-size: 13px;
-    gap: 10px;
+    font-size: 11px;
+    gap: 8px;
   }
 
   .hero-contact-icon {
-    width: 16px;
-    height: 16px;
+    width: 13px;
+    height: 13px;
   }
 
   .pilares-grid,
@@ -2378,6 +2377,78 @@ button {
   .contato-grid,
   .footer-top {
     grid-template-columns: 1fr;
+  }
+
+  .servicos-grid {
+    gap: 16px;
+  }
+
+  .servico-body {
+    padding: 22px;
+  }
+
+  .servico-img-wrap {
+    height: 210px;
+  }
+
+  .servico-icon-box {
+    width: 40px;
+    height: 40px;
+    margin: -44px 0 16px;
+    border-width: 3px;
+    border-radius: 12px;
+  }
+
+  .servico-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .servico-name {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .servico-text {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .servico-link {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+
+  .segmentos-grid {
+    gap: 14px;
+  }
+
+  .segmento-card {
+    padding: 22px 20px;
+    border-radius: 16px;
+  }
+
+  .segmento-icon {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .segmento-card h3 {
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+
+  .segmento-card p {
+    font-size: 13px;
+  }
+
+  .segmento-index {
+    top: 16px;
+    right: 16px;
+    font-size: 10px;
   }
 
   .footer-brand {
