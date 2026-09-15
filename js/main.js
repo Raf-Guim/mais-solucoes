@@ -137,6 +137,70 @@ document.addEventListener('DOMContentLoaded', () => {
     servicosResizeObserver.observe(servicosViewport);
   }
 
+  // Rolagem horizontal — Serviços + Projetos (somente desktop, acima de
+  // 1024px). O wrapper (.hscroll-wrapper) é 2x mais alto que a tela; enquanto
+  // o usuário rola por essa altura extra, o bloco interno fica "grudado"
+  // (position: sticky) e aqui convertemos a distância rolada em um
+  // deslocamento horizontal (translateX) do track, fazendo Serviços sair
+  // pela esquerda e Projetos entrar pela direita. Desativado em telas
+  // ≤1024px e quando o usuário pede "reduzir movimento" no sistema.
+  const hscrollWrapper = document.getElementById('hscrollWrapper');
+  const hscrollTrack = document.getElementById('hscrollTrack');
+  const HSCROLL_PANEL_COUNT = 2;
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function isHscrollActive() {
+    return !!(hscrollWrapper && hscrollTrack) && window.innerWidth > 1024 && !reduceMotionQuery.matches;
+  }
+
+  function updateHscroll() {
+    if (!hscrollWrapper || !hscrollTrack) return;
+
+    if (!isHscrollActive()) {
+      hscrollTrack.style.transform = '';
+      return;
+    }
+
+    const scrollDistance = hscrollWrapper.offsetHeight - window.innerHeight;
+    if (scrollDistance <= 0) return;
+
+    const rectTop = hscrollWrapper.getBoundingClientRect().top;
+    let progress = -rectTop / scrollDistance;
+    progress = Math.max(0, Math.min(1, progress));
+
+    hscrollTrack.style.transform = `translateX(-${progress * (HSCROLL_PANEL_COUNT - 1) * 100}vw)`;
+  }
+
+  // Calcula a posição de rolagem vertical que corresponde a um painel
+  // específico (0 = Serviços, 1 = Projetos). Como os dois painéis ocupam a
+  // mesma posição vertical dentro do bloco "grudado" (a diferença entre eles
+  // é só horizontal), um link do menu não pode simplesmente pular até o
+  // elemento — precisa calcular em que ponto da rolagem o track já deslizou
+  // o suficiente para mostrar aquele painel.
+  function hscrollTargetY(panelIndex) {
+    const wrapperTop = hscrollWrapper.getBoundingClientRect().top + window.scrollY;
+    const scrollDistance = hscrollWrapper.offsetHeight - window.innerHeight;
+    return wrapperTop + (panelIndex / (HSCROLL_PANEL_COUNT - 1)) * scrollDistance;
+  }
+
+  if (hscrollWrapper && hscrollTrack) {
+    let hscrollTicking = false;
+    const onHscrollScroll = () => {
+      if (hscrollTicking) return;
+      hscrollTicking = true;
+      requestAnimationFrame(() => {
+        updateHscroll();
+        hscrollTicking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onHscrollScroll, { passive: true });
+    window.addEventListener('resize', updateHscroll);
+    window.addEventListener('load', updateHscroll);
+    reduceMotionQuery.addEventListener?.('change', updateHscroll);
+    updateHscroll();
+  }
+
   if (mobileToggle && mobileMenu) {
     mobileToggle.addEventListener('click', () => {
       const isActive = mobileMenu.classList.toggle('active');
@@ -168,7 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const headerOffset = header ? header.offsetHeight : 0;
-      const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      const hscrollPanelIndex = id === '#servicos' ? 0 : id === '#projetos' ? 1 : null;
+      let top;
+
+      if (hscrollPanelIndex !== null && isHscrollActive()) {
+        top = hscrollTargetY(hscrollPanelIndex) - headerOffset;
+      } else {
+        top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      }
 
       window.scrollTo({
         top,

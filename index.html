@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/styles.css?v=34">
+  <link rel="stylesheet" href="css/styles.css?v=43">
 </head>
 <body>
   <div class="noise-overlay"></div>
@@ -30,8 +30,8 @@
       <nav class="main-nav" id="mainNav">
         <a href="#pilares" class="nav-link">Pilares</a>
         <a href="#servicos" class="nav-link">Serviços</a>
-        <a href="#segmentos" class="nav-link">Segmentos</a>
         <a href="#projetos" class="nav-link">Projetos</a>
+        <a href="#segmentos" class="nav-link">Segmentos</a>
         <a href="#contato" class="nav-link">Contato</a>
       </nav>
 
@@ -51,8 +51,8 @@
     <nav class="mobile-nav">
       <a href="#pilares" class="mobile-nav-link">Pilares</a>
       <a href="#servicos" class="mobile-nav-link">Serviços</a>
-      <a href="#segmentos" class="mobile-nav-link">Segmentos</a>
       <a href="#projetos" class="mobile-nav-link">Projetos</a>
+      <a href="#segmentos" class="mobile-nav-link">Segmentos</a>
       <a href="#contato" class="mobile-nav-link">Contato</a>
       <a href="https://wa.me/5534998887604?text=Olá!%20Vim%20pelo%20site%20da%20Mais%20Soluções%20e%20gostaria%20de%20mais%20informações." class="mobile-cta" target="_blank" rel="noopener">
         Solicitar Contato
@@ -177,7 +177,11 @@
     </div>
   </section>
 
-  <section class="section section--base" id="servicos">
+  <div class="hscroll-wrapper" id="hscrollWrapper">
+    <div class="hscroll-sticky">
+      <div class="hscroll-track" id="hscrollTrack">
+
+  <section class="section section--base hscroll-panel" id="servicos">
     <div class="section-glow section-glow--right"></div>
     <div class="container">
       <div class="section-header anim-up">
@@ -249,56 +253,7 @@
     </div>
   </section>
 
-  <section class="section section--dark" id="segmentos">
-    <div class="container">
-      <div class="section-header anim-up">
-        <span class="section-tag">Segmentos Atendidos</span>
-        <h2 class="section-title">Experiência em diferentes <em>contextos de obra</em></h2>
-        <p class="section-desc">Atuamos com soluções adaptadas à operação, ao porte e aos objetivos de cada cliente.</p>
-      </div>
-
-      <div class="segmentos-grid">
-        <div class="segmento-card anim-up" data-delay="0">
-          <span class="segmento-index">01</span>
-          <i data-lucide="factory" class="segmento-icon"></i>
-          <h3>Industrial</h3>
-          <p>Obras e adequações com foco em operação, segurança e eficiência.</p>
-        </div>
-        <div class="segmento-card anim-up" data-delay="100">
-          <span class="segmento-index">02</span>
-          <i data-lucide="shopping-bag" class="segmento-icon"></i>
-          <h3>Varejo</h3>
-          <p>Execução orientada por prazo, abertura de unidade e padronização.</p>
-        </div>
-        <div class="segmento-card anim-up" data-delay="200">
-          <span class="segmento-index">03</span>
-          <i data-lucide="hospital" class="segmento-icon"></i>
-          <h3>Hospitalar</h3>
-          <p>Intervenções com atenção redobrada a qualidade, segurança e continuidade.</p>
-        </div>
-        <div class="segmento-card anim-up" data-delay="300">
-          <span class="segmento-index">04</span>
-          <i data-lucide="plane" class="segmento-icon"></i>
-          <h3>Aeroportuário</h3>
-          <p>Atuação em ambientes com alto nível de exigência operacional.</p>
-        </div>
-        <div class="segmento-card anim-up" data-delay="400">
-          <span class="segmento-index">05</span>
-          <i data-lucide="warehouse" class="segmento-icon"></i>
-          <h3>Logística</h3>
-          <p>Soluções para espaços operacionais, armazenagem e infraestrutura.</p>
-        </div>
-        <div class="segmento-card anim-up" data-delay="500">
-          <span class="segmento-index">06</span>
-          <i data-lucide="home" class="segmento-icon"></i>
-          <h3>Residencial</h3>
-          <p>Projetos e reformas com alto padrão de acabamento e acompanhamento técnico.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--base" id="projetos">
+  <section class="section section--base hscroll-panel" id="projetos">
     <div class="container">
       <div class="section-header anim-up">
         <span class="section-tag">Projetos em Destaque</span>
@@ -721,6 +676,59 @@
     </div>
   </section>
 
+      </div>
+    </div>
+  </div>
+
+  <section class="section section--dark" id="segmentos">
+    <div class="container">
+      <div class="section-header anim-up">
+        <span class="section-tag">Segmentos Atendidos</span>
+        <h2 class="section-title">Experiência em diferentes <em>contextos de obra</em></h2>
+        <p class="section-desc">Atuamos com soluções adaptadas à operação, ao porte e aos objetivos de cada cliente.</p>
+      </div>
+
+      <div class="segmentos-grid">
+        <div class="segmento-card anim-up" data-delay="0">
+          <span class="segmento-index">01</span>
+          <i data-lucide="factory" class="segmento-icon"></i>
+          <h3>Industrial</h3>
+          <p>Obras e adequações com foco em operação, segurança e eficiência.</p>
+        </div>
+        <div class="segmento-card anim-up" data-delay="100">
+          <span class="segmento-index">02</span>
+          <i data-lucide="shopping-bag" class="segmento-icon"></i>
+          <h3>Varejo</h3>
+          <p>Execução orientada por prazo, abertura de unidade e padronização.</p>
+        </div>
+        <div class="segmento-card anim-up" data-delay="200">
+          <span class="segmento-index">03</span>
+          <i data-lucide="hospital" class="segmento-icon"></i>
+          <h3>Hospitalar</h3>
+          <p>Intervenções com atenção redobrada a qualidade, segurança e continuidade.</p>
+        </div>
+        <div class="segmento-card anim-up" data-delay="300">
+          <span class="segmento-index">04</span>
+          <i data-lucide="plane" class="segmento-icon"></i>
+          <h3>Aeroportuário</h3>
+          <p>Atuação em ambientes com alto nível de exigência operacional.</p>
+        </div>
+        <div class="segmento-card anim-up" data-delay="400">
+          <span class="segmento-index">05</span>
+          <i data-lucide="warehouse" class="segmento-icon"></i>
+          <h3>Logística</h3>
+          <p>Soluções para espaços operacionais, armazenagem e infraestrutura.</p>
+        </div>
+        <div class="segmento-card anim-up" data-delay="500">
+          <span class="segmento-index">06</span>
+          <i data-lucide="home" class="segmento-icon"></i>
+          <h3>Residencial</h3>
+          <p>Projetos e reformas com alto padrão de acabamento e acompanhamento técnico.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section section--cta" id="cta">
     <div class="container">
       <div class="cta-box anim-zoom">
@@ -868,6 +876,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=11"></script>
+  <script src="js/main.js?v=12"></script>
 </body>
 </html>

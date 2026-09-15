@@ -51,7 +51,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
@@ -61,7 +61,7 @@ body {
   font-family: var(--font-body);
   background: var(--bg-base);
   color: var(--text-main);
-  overflow-x: hidden;
+  overflow-x: clip;
   line-height: 1.6;
 }
 
@@ -897,7 +897,9 @@ button {
 }
 
 #pilares .section-tag,
-#servicos .section-tag {
+#servicos .section-tag,
+#projetos .section-tag,
+#parceiros .section-tag {
   padding: 8px 14px;
   border: 1px solid rgba(15, 95, 188, 0.12);
   border-radius: 999px;
@@ -909,12 +911,16 @@ button {
 #pilares .section-tag::before,
 #pilares .section-tag::after,
 #servicos .section-tag::before,
-#servicos .section-tag::after {
+#servicos .section-tag::after,
+#projetos .section-tag::before,
+#projetos .section-tag::after,
+#parceiros .section-tag::before,
+#parceiros .section-tag::after {
   display: none;
 }
 
 #servicos {
-  background: linear-gradient(180deg, #fff 0%, var(--brand-soft-2) 45%, #fff 100%);
+  background: var(--bg-base);
 }
 
 .pilares-grid {
@@ -1126,12 +1132,14 @@ button {
 .servicos-intro .section-title {
   text-align: left;
   margin: 0;
+  font-size: clamp(40px, 7.7vw, 88px);
 }
 
 .servicos-intro .section-desc {
   text-align: left;
   max-width: 460px;
-  margin: 20px 0 0;
+  margin: 21px 0 0;
+  font-size: 17.5px;
 }
 
 .servicos-showcase {
@@ -2300,6 +2308,160 @@ button {
   height: 92px;
   object-fit: cover;
   display: block;
+}
+
+/* Rolagem horizontal — Serviços + Projetos (somente desktop, acima de 1024px).
+   Ao rolar para baixo, essas duas seções passam a deslizar na horizontal
+   dentro de um bloco "grudado" na tela (position: sticky); a distância extra
+   de rolagem do wrapper é convertida em translateX pelo main.js. Em telas
+   ≤1024px ou com "reduzir movimento" ativado, nada disso se aplica — as
+   divs do wrapper ficam com o comportamento padrão (bloco empilhado). */
+@media (min-width: 1025px) {
+  .hscroll-wrapper {
+    position: relative;
+    height: 200vh;
+  }
+
+  .hscroll-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .hscroll-track {
+    display: flex;
+    width: 200vw;
+    height: 100%;
+    will-change: transform;
+  }
+
+  .hscroll-panel {
+    width: 100vw;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hscroll-panel .container {
+    width: 100%;
+  }
+
+  /* O brilho decorativo de Serviços ficava bem em cima da costura entre os
+     dois painéis durante a transição, evidenciando a divisão. Projetos nunca
+     teve esse efeito, então removemos aqui para os fundos ficarem idênticos. */
+  #servicos .section-glow {
+    display: none;
+  }
+
+  /* Versões compactas de Serviços e Projetos para caber inteiras em 100vh */
+  #servicos,
+  #projetos {
+    padding: 2vh 0;
+  }
+
+  #servicos .section-header,
+  #projetos .section-header {
+    margin-bottom: 1.8vh;
+  }
+
+  .servicos-split,
+  .projetos-split {
+    gap: 3vw;
+  }
+
+  .servicos-intro .section-title,
+  .projetos-intro .section-title {
+    font-size: clamp(32px, 7vh, 60px);
+  }
+
+  .servicos-intro .section-desc,
+  .projetos-intro .section-desc {
+    font-size: clamp(13.5px, 2vh, 17px);
+    margin-top: 1.6vh;
+  }
+
+  /* Card de Serviços compacto */
+  #servicos .carousel-viewport {
+    height: auto;
+  }
+
+  .servico-img-wrap {
+    height: 30vh;
+  }
+
+  .servico-body {
+    padding: 3.2vh 2.2vw;
+  }
+
+  .servico-icon-box {
+    width: 52px;
+    height: 52px;
+    margin: -54px 0 16px;
+  }
+
+  .servico-name {
+    font-size: clamp(18px, 2.6vh, 26px);
+    margin-bottom: 8px;
+  }
+
+  .servico-text {
+    font-size: clamp(13px, 1.7vh, 16px);
+    margin-bottom: 16px;
+  }
+
+  .servico-link {
+    font-size: 12px;
+  }
+
+  /* Carrossel de obras (Projetos) compacto */
+  #projetos .carousel-viewport {
+    height: 62vh;
+  }
+
+  #projetos .carousel-img {
+    height: 56vh;
+  }
+
+  #projetos .carousel-slide.is-left .carousel-img,
+  #projetos .carousel-slide.is-right .carousel-img {
+    height: 38vh;
+  }
+
+  #projetos .projetos-tabs {
+    margin-bottom: 1.6vh;
+  }
+
+  #projetos .tab-btn {
+    padding: 9px 16px;
+  }
+}
+
+@media (min-width: 1025px) and (prefers-reduced-motion: reduce) {
+  .hscroll-wrapper {
+    height: auto;
+  }
+
+  .hscroll-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hscroll-track {
+    display: block;
+    width: auto;
+    transform: none !important;
+  }
+
+  .hscroll-panel {
+    width: auto;
+    height: auto;
+    display: block;
+  }
 }
 
 /* Responsivo */
