@@ -138,7 +138,7 @@ button {
 }
 
 .header-inner {
-  max-width: 1240px;
+  max-width: 930px;
   margin: 0 auto;
   padding: 0 28px;
   width: 100%;
@@ -531,11 +531,11 @@ button {
 }
 
 .logo {
-  margin-left: 10px;
+  margin-left: 24px;
 }
 
 .logo-img {
-  height: 46px;
+  height: 41px;
   filter: brightness(0) invert(1);
 }
 
