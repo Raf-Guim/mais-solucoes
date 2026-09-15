@@ -106,6 +106,37 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', alignProjetosIntro);
   window.addEventListener('load', alignProjetosIntro);
 
+  // Seção "Serviços": mesma lógica da seção "Projetos" — o bloco de texto da
+  // esquerda deve ficar do mesmo tamanho do card do carrossel à direita.
+  // Aqui não há tabs acima do carrossel, então basta igualar a altura do
+  // texto à altura real do card ativo (que varia de slide para slide).
+  function alignServicosIntro() {
+    const intro = document.querySelector('.servicos-intro');
+    const showcase = document.querySelector('.servicos-showcase');
+    const viewport = showcase?.querySelector('.carousel-viewport');
+    if (!intro || !showcase || !viewport) return;
+
+    if (window.innerWidth <= 1024) {
+      intro.style.minHeight = '';
+      return;
+    }
+
+    intro.style.minHeight = `${viewport.getBoundingClientRect().height}px`;
+  }
+
+  alignServicosIntro();
+  window.addEventListener('resize', alignServicosIntro);
+  window.addEventListener('load', alignServicosIntro);
+
+  // A altura do card ativo muda a cada troca de slide do carrossel de
+  // Serviços (imagens/textos diferentes), então recalculamos sempre que o
+  // carrossel atualiza o slide ativo.
+  const servicosViewport = document.querySelector('.servicos-showcase .carousel-viewport');
+  if (servicosViewport) {
+    const servicosResizeObserver = new ResizeObserver(() => alignServicosIntro());
+    servicosResizeObserver.observe(servicosViewport);
+  }
+
   if (mobileToggle && mobileMenu) {
     mobileToggle.addEventListener('click', () => {
       const isActive = mobileMenu.classList.toggle('active');
@@ -302,7 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function startAuto() {
       stopAuto();
 
-      const panelActive = panel && panel.classList.contains('active');
+      // Carrosséis sem abas (ex.: Serviços) não têm um .tab-panel ancestral —
+      // nesse caso, tratamos como sempre "ativo".
+      const panelActive = !panel || panel.classList.contains('active');
       if (!sectionVisible || !panelActive) return;
 
       autoTimer = setInterval(() => {
@@ -333,9 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, { threshold: 0.35 });
 
-    if (panel) {
-      visibilityObserver.observe(panel);
-    }
+    visibilityObserver.observe(panel || carousel);
 
     window.addEventListener('resize', updateCarousel);
 

@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/styles.css?v=29">
+  <link rel="stylesheet" href="css/styles.css?v=34">
 </head>
 <body>
   <div class="noise-overlay"></div>
@@ -182,43 +182,67 @@
     <div class="container">
       <div class="section-header anim-up">
         <span class="section-tag">Serviços</span>
-        <h2 class="section-title">Soluções completas em <em>engenharia e construção</em></h2>
       </div>
 
-      <div class="servicos-grid">
-        <div class="servico-card anim-left" data-delay="0">
-          <div class="servico-img-wrap">
-            <img src="Servicos.jpg" alt="Construção e Reformas" class="servico-img" loading="lazy">
-            <div class="servico-img-overlay"></div>
-          </div>
-          <div class="servico-body">
-            <div class="servico-icon-box">
-              <i data-lucide="building-2" class="servico-icon"></i>
-            </div>
-            <h3 class="servico-name">Construção, Reformas e Instalações</h3>
-            <p class="servico-text">Execução de obras com padrão técnico, acompanhamento contínuo e soluções adequadas para diferentes escalas e necessidades.</p>
-            <a href="#contato" class="servico-link">
-              <span>Solicitar atendimento</span>
-              <i data-lucide="arrow-right" class="link-arrow"></i>
-            </a>
-          </div>
+      <div class="servicos-split">
+        <div class="servicos-intro anim-left" data-delay="100">
+          <h2 class="section-title">Soluções completas em <em>engenharia e construção</em></h2>
+          <p class="section-desc">Unimos planejamento técnico e execução qualificada para entregar obras no prazo, com segurança e acompanhamento em cada etapa do projeto.</p>
         </div>
 
-        <div class="servico-card anim-right" data-delay="150">
-          <div class="servico-img-wrap">
-            <img src="Capa2.png" alt="Projetos e planejamento de engenharia" class="servico-img servico-img--planning" loading="lazy">
-            <div class="servico-img-overlay"></div>
-          </div>
-          <div class="servico-body">
-            <div class="servico-icon-box">
-              <i data-lucide="drafting-compass" class="servico-icon"></i>
+        <div class="servicos-showcase anim-right" data-delay="180">
+          <div class="projects-carousel" data-carousel="servicos">
+            <button class="carousel-btn carousel-btn--prev hidden" type="button" aria-label="Serviço anterior">
+              <i data-lucide="chevron-left"></i>
+            </button>
+
+            <div class="carousel-viewport">
+              <div class="carousel-track">
+                <div class="carousel-slide servico-slide active is-active">
+                  <div class="servico-card">
+                    <div class="servico-img-wrap">
+                      <img src="Servicos.jpg" alt="Construção e Reformas" class="servico-img" loading="lazy">
+                      <div class="servico-img-overlay"></div>
+                    </div>
+                    <div class="servico-body">
+                      <div class="servico-icon-box">
+                        <i data-lucide="building-2" class="servico-icon"></i>
+                      </div>
+                      <h3 class="servico-name">Construção, Reformas e Instalações</h3>
+                      <p class="servico-text">Execução de obras com padrão técnico, acompanhamento contínuo e soluções adequadas para diferentes escalas e necessidades.</p>
+                      <a href="#contato" class="servico-link">
+                        <span>Solicitar atendimento</span>
+                        <i data-lucide="arrow-right" class="link-arrow"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="carousel-slide servico-slide">
+                  <div class="servico-card">
+                    <div class="servico-img-wrap">
+                      <img src="Capa2.png" alt="Projetos e planejamento de engenharia" class="servico-img servico-img--planning" loading="lazy">
+                      <div class="servico-img-overlay"></div>
+                    </div>
+                    <div class="servico-body">
+                      <div class="servico-icon-box">
+                        <i data-lucide="drafting-compass" class="servico-icon"></i>
+                      </div>
+                      <h3 class="servico-name">Projetos e Planejamento</h3>
+                      <p class="servico-text">Estruturação técnica para transformar ideias em projetos viáveis, bem dimensionados e preparados para execução eficiente.</p>
+                      <a href="#contato" class="servico-link">
+                        <span>Falar com a equipe</span>
+                        <i data-lucide="arrow-right" class="link-arrow"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3 class="servico-name">Projetos e Planejamento</h3>
-            <p class="servico-text">Estruturação técnica para transformar ideias em projetos viáveis, bem dimensionados e preparados para execução eficiente.</p>
-            <a href="#contato" class="servico-link">
-              <span>Falar com a equipe</span>
-              <i data-lucide="arrow-right" class="link-arrow"></i>
-            </a>
+
+            <button class="carousel-btn carousel-btn--next" type="button" aria-label="Próximo serviço">
+              <i data-lucide="chevron-right"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -844,6 +868,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=9"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>

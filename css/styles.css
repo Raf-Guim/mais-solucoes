@@ -85,7 +85,12 @@ button {
 }
 
 .container {
-  max-width: 1240px;
+  /* Abaixo de ~1550px de largura de tela, isso se comporta exatamente como
+     antes (max-width fixo de 1240px) — nada muda para laptops, tablets ou
+     celular. Acima disso, o conteúdo passa a ocupar 80% da largura da tela
+     em vez de ficar travado, até um teto de 1600px (pra parágrafos não
+     ficarem com linhas longas demais em monitores ultrawide). */
+  max-width: clamp(1240px, 80vw, 1600px);
   margin: 0 auto;
   padding: 0 28px;
 }
@@ -1104,7 +1109,64 @@ button {
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Serviços */
+/* Serviços — layout dividido (esquerda: texto fixo / direita: carrossel de serviços) */
+.servicos-split {
+  display: grid;
+  grid-template-columns: minmax(320px, 560px) 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.servicos-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.servicos-intro .section-title {
+  text-align: left;
+  margin: 0;
+}
+
+.servicos-intro .section-desc {
+  text-align: left;
+  max-width: 460px;
+  margin: 20px 0 0;
+}
+
+.servicos-showcase {
+  min-width: 0;
+}
+
+/* O carrossel de serviços reaproveita o componente .projects-carousel dos
+   Projetos (mesmos botões prev/next, mesma lógica em JS), mas cada slide
+   tem altura variável (imagem + texto + botão), então aqui o viewport
+   cresce com o conteúdo em vez de ter altura fixa, e cada slide some/aparece
+   por completo em vez do efeito de "espiar" o slide vizinho. */
+#servicos .carousel-viewport {
+  height: auto;
+  overflow: visible;
+}
+
+.carousel-slide.servico-slide {
+  position: static;
+  width: 100%;
+  opacity: 0;
+  transform: none;
+  filter: none;
+  pointer-events: none;
+  display: none;
+  transition: opacity 0.5s var(--ease);
+}
+
+.carousel-slide.servico-slide.is-active {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  filter: none;
+}
+
 .servicos-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2253,6 +2315,22 @@ button {
 
   .segmentos-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .servicos-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .servicos-intro .section-title {
+    text-align: center;
+  }
+
+  .servicos-intro .section-desc {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 640px;
   }
 
   .projetos-split {
