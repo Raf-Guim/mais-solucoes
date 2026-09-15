@@ -846,6 +846,10 @@ button {
 }
 
 /* Projetos — layout dividido (esquerda: texto / direita: tabs + carrossel) */
+#projetos .section-header {
+  margin-bottom: 48px;
+}
+
 .projetos-split {
   display: grid;
   grid-template-columns: minmax(290px, 440px) 1fr;
@@ -856,18 +860,7 @@ button {
 .projetos-intro {
   display: flex;
   flex-direction: column;
-}
-
-#projetos .projetos-intro .section-tag {
-  display: block;
-  width: max-content;
-  padding: 0;
-  margin-bottom: 18px;
-}
-
-#projetos .projetos-intro .section-tag::before,
-#projetos .projetos-intro .section-tag::after {
-  display: none;
+  justify-content: center;
 }
 
 .projetos-intro .section-title {
@@ -2265,11 +2258,6 @@ button {
   .projetos-split {
     grid-template-columns: 1fr;
     gap: 36px;
-  }
-
-  #projetos .projetos-intro .section-tag {
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .projetos-intro .section-title,

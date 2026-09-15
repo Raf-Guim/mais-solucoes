@@ -74,20 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', updateHeaderState);
 
-  // Seção "Projetos": faz o título/texto da esquerda começar exatamente na
-  // mesma altura em que a imagem do carrossel começa à direita (logo abaixo
-  // dos tabs), e faz o bloco da esquerda ocupar a mesma altura total do
-  // bloco tabs + carrossel. A tag "Projetos em Destaque" fica no topo,
-  // como os tabs ficam no topo da direita.
+  // Seção "Projetos": o bloco de texto da esquerda deve ficar do mesmo
+  // tamanho e na mesma altura da IMAGEM do carrossel à direita (ignorando
+  // os tabs, que ficam acima da imagem). Medimos a altura real dos tabs
+  // (fonte/paddings variam por navegador) e empurramos o texto para baixo
+  // com a mesma distância, depois igualamos a altura do texto à da imagem
+  // e centralizamos o título/parágrafo dentro dela.
   function alignProjetosIntro() {
     const intro = document.querySelector('.projetos-intro');
-    const tag = intro?.querySelector('.section-tag');
     const showcase = document.querySelector('.projetos-showcase');
     const tabs = showcase?.querySelector('.projetos-tabs');
-    if (!intro || !tag || !showcase || !tabs) return;
+    const viewport = showcase?.querySelector('.carousel-viewport');
+    if (!intro || !showcase || !tabs || !viewport) return;
 
     if (window.innerWidth <= 1024) {
-      tag.style.marginBottom = '';
+      intro.style.marginTop = '';
       intro.style.minHeight = '';
       return;
     }
@@ -96,10 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabsRect = tabs.getBoundingClientRect();
     const tabsMarginBottom = parseFloat(getComputedStyle(tabs).marginBottom) || 0;
     const gapBeforeImage = (tabsRect.bottom - showcaseRect.top) + tabsMarginBottom;
-    const tagHeight = tag.offsetHeight;
 
-    tag.style.marginBottom = `${Math.max(gapBeforeImage - tagHeight, 0)}px`;
-    intro.style.minHeight = `${showcaseRect.height}px`;
+    intro.style.marginTop = `${Math.max(gapBeforeImage, 0)}px`;
+    intro.style.minHeight = `${viewport.getBoundingClientRect().height}px`;
   }
 
   alignProjetosIntro();
