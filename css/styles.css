@@ -315,6 +315,14 @@ button {
   text-transform: uppercase;
 }
 
+.mobile-menu-logo {
+  width: min(175px, 50vw);
+  height: auto;
+  margin-top: 36px;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+
 /* Hero */
 .hero {
   position: relative;
@@ -2239,12 +2247,14 @@ button {
   }
 
   .main-nav,
-  .header-cta {
+  .header-cta,
+  .site-header .logo {
     display: none;
   }
 
   .mobile-menu-toggle {
     display: flex;
+    margin-left: auto;
   }
 
   .site-header {
