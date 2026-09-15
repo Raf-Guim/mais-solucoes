@@ -127,7 +127,13 @@ button {
   align-items: center;
   transition:
     background var(--t-med) var(--ease),
-    backdrop-filter var(--t-med) var(--ease);
+    backdrop-filter var(--t-med) var(--ease),
+    transform 0.7s var(--ease);
+  will-change: transform;
+}
+
+.site-header.header-hidden {
+  transform: translateY(-100%);
 }
 
 .site-header.scrolled {

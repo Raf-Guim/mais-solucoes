@@ -6,6 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.getElementById('mobileMenuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
 
+  // Distância acumulada (em px) que a página precisa rolar em uma única
+  // direção contínua antes do header esconder/aparecer. Isso evita que
+  // pequenos movimentos (trackpad, scroll de inércia) disparem a animação.
+  const HEADER_HIDE_DISTANCE = 90;
+  const HEADER_SHOW_DISTANCE = 70;
+  const HEADER_REVEAL_ZONE = 140; // sempre visível perto do topo
+
+  let lastScrollY = window.scrollY;
+  let scrollAccum = 0;
+  let scrollDir = 0;
+  let headerTicking = false;
+
   function updateHeaderState() {
     if (!header) return;
 
@@ -16,11 +28,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     header.classList.toggle('scrolled', isScrolled);
     header.classList.toggle('at-hero', isAtHero);
+
+    const delta = currentScrollY - lastScrollY;
+    lastScrollY = currentScrollY;
+
+    if (mobileMenu?.classList.contains('active')) {
+      scrollAccum = 0;
+      return;
+    }
+
+    if (currentScrollY < HEADER_REVEAL_ZONE) {
+      header.classList.remove('header-hidden');
+      scrollAccum = 0;
+      scrollDir = 0;
+      return;
+    }
+
+    if (delta === 0) return;
+
+    const direction = delta > 0 ? 1 : -1;
+    if (direction !== scrollDir) {
+      scrollDir = direction;
+      scrollAccum = 0;
+    }
+    scrollAccum += Math.abs(delta);
+
+    if (scrollDir === 1 && scrollAccum > HEADER_HIDE_DISTANCE) {
+      header.classList.add('header-hidden');
+    } else if (scrollDir === -1 && scrollAccum > HEADER_SHOW_DISTANCE) {
+      header.classList.remove('header-hidden');
+    }
+  }
+
+  function onScroll() {
+    if (headerTicking) return;
+    headerTicking = true;
+    requestAnimationFrame(() => {
+      updateHeaderState();
+      headerTicking = false;
+    });
   }
 
   updateHeaderState();
 
-  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', updateHeaderState);
 
   if (mobileToggle && mobileMenu) {
