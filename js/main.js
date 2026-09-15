@@ -74,6 +74,38 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', updateHeaderState);
 
+  // Seção "Projetos": faz o título/texto da esquerda começar exatamente na
+  // mesma altura em que a imagem do carrossel começa à direita (logo abaixo
+  // dos tabs), e faz o bloco da esquerda ocupar a mesma altura total do
+  // bloco tabs + carrossel. A tag "Projetos em Destaque" fica no topo,
+  // como os tabs ficam no topo da direita.
+  function alignProjetosIntro() {
+    const intro = document.querySelector('.projetos-intro');
+    const tag = intro?.querySelector('.section-tag');
+    const showcase = document.querySelector('.projetos-showcase');
+    const tabs = showcase?.querySelector('.projetos-tabs');
+    if (!intro || !tag || !showcase || !tabs) return;
+
+    if (window.innerWidth <= 1024) {
+      tag.style.marginBottom = '';
+      intro.style.minHeight = '';
+      return;
+    }
+
+    const showcaseRect = showcase.getBoundingClientRect();
+    const tabsRect = tabs.getBoundingClientRect();
+    const tabsMarginBottom = parseFloat(getComputedStyle(tabs).marginBottom) || 0;
+    const gapBeforeImage = (tabsRect.bottom - showcaseRect.top) + tabsMarginBottom;
+    const tagHeight = tag.offsetHeight;
+
+    tag.style.marginBottom = `${Math.max(gapBeforeImage - tagHeight, 0)}px`;
+    intro.style.minHeight = `${showcaseRect.height}px`;
+  }
+
+  alignProjetosIntro();
+  window.addEventListener('resize', alignProjetosIntro);
+  window.addEventListener('load', alignProjetosIntro);
+
   if (mobileToggle && mobileMenu) {
     mobileToggle.addEventListener('click', () => {
       const isActive = mobileMenu.classList.toggle('active');

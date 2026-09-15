@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/styles.css?v=21">
+  <link rel="stylesheet" href="css/styles.css?v=28">
 </head>
 <body>
   <div class="noise-overlay"></div>
@@ -276,18 +276,20 @@
 
   <section class="section section--base" id="projetos">
     <div class="container">
-      <div class="section-header anim-up">
-        <span class="section-tag">Projetos em Destaque</span>
-        <h2 class="section-title">Obras que refletem nosso <em>padrão de execução</em></h2>
-        <p class="section-desc">Cada projeto representa uma combinação entre planejamento, qualidade e compromisso com o resultado.</p>
-      </div>
+      <div class="projetos-split">
+        <div class="projetos-intro anim-left" data-delay="100">
+          <span class="section-tag">Projetos em Destaque</span>
+          <h2 class="section-title">Obras que refletem nosso <br><em>padrão de execução</em></h2>
+          <p class="section-desc">Cada projeto representa uma combinação entre planejamento, qualidade e compromisso com o resultado.</p>
+        </div>
 
-      <div class="projetos-tabs anim-up" data-delay="100">
-        <button class="tab-btn active" data-tab="residencial">Residenciais</button>
-        <button class="tab-btn" data-tab="industrial">Industriais e Varejo</button>
-      </div>
+        <div class="projetos-showcase anim-right" data-delay="180">
+          <div class="projetos-tabs">
+            <button class="tab-btn active" data-tab="residencial">Residenciais</button>
+            <button class="tab-btn" data-tab="industrial">Industriais e Varejo</button>
+          </div>
 
-      <div class="projetos-content">
+          <div class="projetos-content">
         <div class="tab-panel active" id="panel-residencial">
           <div class="projects-carousel anim-zoom visible" data-delay="200" data-carousel="residencial">
             <button class="carousel-btn carousel-btn--prev hidden" type="button" aria-label="Projeto anterior">
@@ -599,22 +601,29 @@
 
                 <div class="carousel-slide">
                   <img
-                    src="obras/SwiftAtibaia/swiftatibaia-1.jpeg"
+                    src="obras/SwiftAtibaia/A1.png"
                     alt="Swift Atibaia"
                     class="carousel-img project-gallery-trigger"
                     loading="lazy"
                     data-gallery="swift-atibaia"
                     data-title="Swift Atibaia"
                     data-images='[
-                      "obras/SwiftAtibaia/swiftatibaia-1.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-2.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-3.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-4.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-5.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-6.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-7.jpeg",
-                      "obras/SwiftAtibaia/swiftatibaia-8.jpg",
-                      "obras/SwiftAtibaia/swiftatibaia-9.png"
+                      "obras/SwiftAtibaia/A1.png",
+                      "obras/SwiftAtibaia/A2.png",
+                      "obras/SwiftAtibaia/A3.jpg",
+                      "obras/SwiftAtibaia/A4.jpg",
+                      "obras/SwiftAtibaia/A5.jpg",
+                      "obras/SwiftAtibaia/A6.jpeg",
+                      "obras/SwiftAtibaia/A7.jpg",
+                      "obras/SwiftAtibaia/A8.png",
+                      "obras/SwiftAtibaia/A9.jpg",
+                      "obras/SwiftAtibaia/A10.png",
+                      "obras/SwiftAtibaia/A11.png",
+                      "obras/SwiftAtibaia/A12.jpg",
+                      "obras/SwiftAtibaia/A13.jpeg",
+                      "obras/SwiftAtibaia/A14.jpeg",
+                      "obras/SwiftAtibaia/A15.jpeg",
+                      "obras/SwiftAtibaia/A16.jpeg"
                     ]'
                   >
                   <div class="carousel-caption">
@@ -637,7 +646,9 @@
                       "obras/SwiftJandira/2.png",
                       "obras/SwiftJandira/3.png",
                       "obras/SwiftJandira/4.png",
-                      "obras/SwiftJandira/5.jpg"
+                      "obras/SwiftJandira/5.jpg",
+                      "obras/SwiftJandira/6.jpg",
+                      "obras/SwiftJandira/7.jpg"
                     ]'
                   >
                   <div class="carousel-caption">
@@ -675,6 +686,8 @@
             <button class="carousel-btn carousel-btn--next" type="button" aria-label="Próximo projeto">
               <i data-lucide="chevron-right"></i>
             </button>
+          </div>
+        </div>
           </div>
         </div>
       </div>
@@ -828,6 +841,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=7"></script>
+  <script src="js/main.js?v=8"></script>
 </body>
 </html>
