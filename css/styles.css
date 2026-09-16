@@ -36,8 +36,6 @@
   --t-med: 0.42s;
   --t-slow: 0.7s;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-
-  --header-h: 104px;
 }
 
 /* Reset */
@@ -122,24 +120,35 @@ button {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Header */
+/* Header — colado ao topo (barra cheia, sem "flutuar" separada da borda) */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  height: var(--header-h);
+  height: clamp(64px, 8.7vh, 94px);
+  padding: 0;
   display: flex;
   align-items: center;
+  background: rgba(8, 22, 48, 0.72);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
   transition:
     background var(--t-med) var(--ease),
     backdrop-filter var(--t-med) var(--ease),
     box-shadow var(--t-med) var(--ease);
 }
 
+.site-header.scrolled {
+  background: rgba(8, 22, 48, 0.92);
+  box-shadow: 0 12px 30px rgba(3, 12, 28, 0.18);
+}
+
 .header-inner {
   max-width: clamp(1100px, 90vw, 1400px);
+  height: 100%;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 18px 0 20px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -150,13 +159,13 @@ button {
   display: flex;
   align-items: center;
   z-index: 10;
-  min-height: 70px;
+  min-height: 0;
 }
 
 .logo-img {
-  height: 70px;
+  height: clamp(40px, 5.4vh, 58px);
   width: auto;
-  filter: none;
+  filter: brightness(0) invert(1);
   transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
 }
 
@@ -166,19 +175,23 @@ button {
 
 .main-nav {
   display: flex;
-  gap: 28px;
+  gap: 4px;
   align-items: center;
   margin-left: auto;
+  padding: 7px;
+  border-radius: 12px;
 }
 
 .nav-link {
   position: relative;
+  padding: 9px 12px;
+  border-radius: 9px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.8px;
+  letter-spacing: 1.3px;
   text-transform: uppercase;
   color: var(--gray-300);
-  transition: color var(--t-fast) var(--ease);
+  transition: color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
 }
 
 .nav-link::after {
@@ -190,11 +203,13 @@ button {
   height: 2px;
   background: var(--brand-pale);
   transition: width var(--t-med) var(--ease);
+  display: none;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: var(--white);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .nav-link:hover::after,
@@ -212,13 +227,15 @@ button {
 }
 
 .header-cta {
-  padding: 12px 24px;
+  padding: 12px 18px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.4px;
   text-transform: uppercase;
   transition: all var(--t-fast) var(--ease);
   margin-left: 28px;
+  border-radius: 11px;
+  box-shadow: 0 8px 24px rgba(15, 95, 188, 0.2);
 }
 
 .header-cta:hover,
@@ -233,9 +250,16 @@ button {
 .mobile-menu-toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(8, 22, 48, 0.72);
   z-index: 1001;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-toggle span {
@@ -487,64 +511,6 @@ button {
 
 .title-mobile {
   display: none;
-}
-
-/* Header colado ao topo (barra cheia, sem "flutuar" separada da borda) */
-.site-header {
-  height: 94px;
-  padding: 0;
-  background: rgba(8, 22, 48, 0.72);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-}
-
-.site-header.scrolled {
-  background: rgba(8, 22, 48, 0.92);
-  box-shadow: 0 12px 30px rgba(3, 12, 28, 0.18);
-}
-
-.header-inner {
-  height: 100%;
-  padding: 0 18px 0 20px;
-}
-
-.logo,
-.logo-img {
-  min-height: 0;
-}
-
-.logo-img {
-  height: 58px;
-  filter: brightness(0) invert(1);
-}
-
-.main-nav {
-  padding: 7px;
-  gap: 4px;
-  border-radius: 12px;
-}
-
-.nav-link {
-  padding: 9px 12px;
-  border-radius: 9px;
-  letter-spacing: 1.3px;
-  transition: color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
-}
-
-.nav-link::after {
-  display: none;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  background: rgba(255, 255, 255, 0.09);
-}
-
-.header-cta {
-  padding: 12px 18px;
-  border-radius: 11px;
-  box-shadow: 0 8px 24px rgba(15, 95, 188, 0.2);
 }
 
 .hero-content {
@@ -832,6 +798,13 @@ button {
 .projetos-intro .section-title {
   text-align: left;
   margin: 0;
+  font-size: clamp(42.5px, 6.3vw, 72.5px);
+}
+
+/* O <em> (parte destacada em azul) mantém o tamanho original — só o texto
+   preto do subtítulo aumenta, então as duas partes ficam com tamanhos
+   diferentes de propósito. */
+.projetos-intro .section-title em {
   font-size: clamp(37px, 5.5vw, 63px);
 }
 
@@ -1093,6 +1066,11 @@ button {
 .servicos-intro .section-title {
   text-align: left;
   margin: 0;
+  font-size: clamp(46px, 8.9vw, 101px);
+}
+
+/* Mesma lógica: <em> fica no tamanho original, só o texto preto cresce. */
+.servicos-intro .section-title em {
   font-size: clamp(40px, 7.7vw, 88px);
 }
 
@@ -2336,6 +2314,12 @@ button {
 
   .servicos-intro .section-title,
   .projetos-intro .section-title {
+    font-size: clamp(37px, 8vh, 69px);
+  }
+
+  /* <em> trava no tamanho antigo também na versão compacta (desktop hscroll). */
+  .servicos-intro .section-title em,
+  .projetos-intro .section-title em {
     font-size: clamp(32px, 7vh, 60px);
   }
 
@@ -2499,10 +2483,6 @@ button {
 }
 
 @media (max-width: 768px) {
-  :root {
-    --header-h: 72px;
-  }
-
   .main-nav,
   .header-cta,
   .site-header .logo {
@@ -2514,9 +2494,18 @@ button {
     margin-left: auto;
   }
 
-  .site-header {
+  /* No mobile só o botão do menu fica visível no header (logo, nav e CTA
+     somem), então a barra de fundo inteira vira um retângulo vazio sem
+     necessidade — deixamos só o círculo do próprio botão. */
+  .site-header,
+  .site-header.scrolled {
     height: 82px;
     padding: 0;
+    background: none;
+    border-bottom: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .header-inner {
@@ -2641,44 +2630,76 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .pilar-card {
+    padding: 26px 18px;
+    border-radius: 16px;
+  }
+
+  .pilar-icon-box {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .pilar-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .pilar-title {
+    font-size: 16px;
+    margin-bottom: 7px;
+  }
+
+  .pilar-text {
+    font-size: 13px;
+  }
+
+  .pilar-num {
+    font-size: 50px;
+    right: 14px;
+    bottom: 8px;
+  }
+
   .servicos-grid {
     gap: 16px;
   }
 
   .servico-body {
-    padding: 22px;
+    padding: 16px;
   }
 
   .servico-img-wrap {
-    height: 210px;
+    height: 160px;
   }
 
   .servico-icon-box {
-    width: 40px;
-    height: 40px;
-    margin: -44px 0 16px;
-    border-width: 3px;
-    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    margin: -34px 0 12px;
+    border-width: 2px;
+    border-radius: 10px;
   }
 
   .servico-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 
   .servico-name {
-    font-size: 18px;
-    margin-bottom: 8px;
+    font-size: 16px;
+    margin-bottom: 6px;
   }
 
   .servico-text {
-    font-size: 13px;
-    margin-bottom: 16px;
+    font-size: 12px;
+    margin-bottom: 12px;
   }
 
   .servico-link {
-    font-size: 11px;
-    padding: 8px 12px;
+    font-size: 10px;
+    padding: 6px 10px;
   }
 
   .segmentos-grid {
@@ -2686,31 +2707,31 @@ button {
   }
 
   .segmento-card {
-    padding: 22px 20px;
-    border-radius: 16px;
+    padding: 16px 14px;
+    border-radius: 14px;
   }
 
   .segmento-icon {
-    width: 40px;
-    height: 40px;
-    padding: 10px;
-    margin-bottom: 16px;
-    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 10px;
   }
 
   .segmento-card h3 {
-    font-size: 17px;
-    margin-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 6px;
   }
 
   .segmento-card p {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .segmento-index {
-    top: 16px;
-    right: 16px;
-    font-size: 10px;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
   }
 
   .footer-brand {
@@ -2733,7 +2754,9 @@ button {
 
   .tab-btn {
     flex: 1;
-    padding: 12px 14px;
+    padding: 8px 10px;
+    font-size: 10.5px;
+    letter-spacing: 1px;
   }
 
   .projects-carousel {
@@ -2972,25 +2995,9 @@ button {
   align-items: center;
 }
 
-.hero-brand-col {
-  position: absolute;
-  left: 32px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  display: flex;
-  align-items: center;
-}
-
-.hero-brand-img {
-  width: min(200px, 16vw);
-  height: auto;
-  filter: drop-shadow(0 2px 10px rgba(3, 12, 28, 0.45));
-}
-
 .hero-media-col {
   width: 100%;
-  max-width: 680px;
+  max-width: 990px;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -3001,7 +3008,7 @@ button {
 .hero-media-frame {
   position: relative;
   width: 100%;
-  max-width: 680px;
+  max-width: 990px;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 14px;
@@ -3060,36 +3067,23 @@ button {
 
 @media (max-width: 1000px) {
   .hero-inner {
-    padding: 150px 24px 36px;
+    padding: 80px 24px 36px;
     gap: 28px;
   }
 
-  .hero-brand-col {
-    position: static;
-    transform: none;
-  }
-
-  .hero-brand-img {
-    width: min(180px, 50vw);
-  }
-
   .hero-media-frame {
-    max-width: 560px;
+    max-width: 736px;
   }
 }
 
 @media (max-width: 768px) {
   .hero-inner {
-    padding: 130px 16px 30px;
+    padding: 64px 16px 30px;
     gap: 22px;
   }
 
-  .hero-brand-img {
-    width: min(150px, 45vw);
-  }
-
   .hero-media-frame {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
     border-radius: 12px;
   }
 
@@ -3098,5 +3092,14 @@ button {
     bottom: 12px;
     padding: 7px 13px;
     font-size: 9px;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    min-width: 0;
+    min-height: 44px;
+    padding: 12px 20px;
+    font-size: 11px;
+    border-radius: 11px;
   }
 }

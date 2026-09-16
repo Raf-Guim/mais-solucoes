@@ -28,6 +28,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // Hero — card "obra em destaque": o tamanho de referência (990px, cerca de
+  // 16:10) foi desenhado para uma tela 1920x1080. Em janelas mais baixas ou
+  // mais estreitas que essa referência, um max-width fixo (ou em vh) não é
+  // suficiente: ele não sabe quanto espaço o header, o padding da hero, a
+  // fileira de botões e o card de contato (canto inferior direito, position
+  // absolute) realmente ocupam. Por isso medimos tudo em tempo real e
+  // calculamos o maior tamanho que o card pode ter sem invadir nenhum desses
+  // elementos, reaplicando sempre que a janela for redimensionada.
+  const heroMediaCol = document.querySelector('.hero-media-col');
+  const heroMediaFrame = document.getElementById('heroMediaFrame');
+  const heroActions = hero?.querySelector('.hero-actions');
+  const heroContact = document.querySelector('.hero-contact');
+  const heroInner = document.querySelector('.hero-inner');
+  const HERO_MEDIA_REF = 990; // tamanho "ideal" a 1920x1080
+  const HERO_MEDIA_MIN = 260; // nunca encolhe além disso
+  const HERO_MEDIA_ASPECT = 16 / 10;
+
+  function fitHeroMedia() {
+    if (!heroMediaCol || !heroMediaFrame || !heroInner) return;
+
+    // Abaixo de 1000px o layout muda de estrutura (breakpoints próprios
+    // cuidam do tamanho do card); aqui só tratamos o desktop "largo".
+    if (window.innerWidth <= 1000) {
+      heroMediaCol.style.maxWidth = '';
+      return;
+    }
+
+    const innerStyle = getComputedStyle(heroInner);
+    // O padding-top da hero já foi dimensionado para "vazar" o header fixo
+    // (ele é maior que a altura máxima do header + uma folga) — por isso
+    // usamos só ele como reserva de topo, sem subtrair a altura do header
+    // de novo (isso estava contando o mesmo espaço duas vezes e encolhendo
+    // o card sem necessidade).
+    const padTop = parseFloat(innerStyle.paddingTop) || 0;
+    const padBottom = parseFloat(innerStyle.paddingBottom) || 0;
+    const colStyle = getComputedStyle(heroMediaCol);
+    const colGap = parseFloat(colStyle.rowGap || colStyle.gap) || 0;
+    const actionsH = heroActions ? heroActions.getBoundingClientRect().height : 0;
+
+    // Reserva vertical para o card de contato não ser invadido: o próprio
+    // padding-bottom da hero já dá uma folga na base, então só precisamos
+    // da reserva EXTRA quando o contato precisar de mais espaço que isso
+    // (usamos o maior dos dois, não a soma dos dois).
+    let contactReserveH = padBottom;
+    let contactReserveW = 0;
+    if (heroContact) {
+      const contactRect = heroContact.getBoundingClientRect();
+      contactReserveH = Math.max(padBottom, contactRect.height + 20);
+      contactReserveW = (contactRect.width + 28) * 2;
+    }
+
+    const availableHeight = window.innerHeight - padTop - colGap - actionsH - contactReserveH;
+    const availableWidth = Math.min(heroInner.clientWidth, window.innerWidth - contactReserveW);
+
+    let maxW = Math.min(HERO_MEDIA_REF, availableWidth, Math.max(availableHeight, 0) * HERO_MEDIA_ASPECT);
+    if (!Number.isFinite(maxW) || maxW <= 0) maxW = HERO_MEDIA_REF;
+    maxW = Math.max(maxW, HERO_MEDIA_MIN);
+
+    heroMediaCol.style.maxWidth = `${Math.round(maxW)}px`;
+  }
+
+  let heroMediaTicking = false;
+  function requestFitHeroMedia() {
+    if (heroMediaTicking) return;
+    heroMediaTicking = true;
+    requestAnimationFrame(() => {
+      fitHeroMedia();
+      heroMediaTicking = false;
+    });
+  }
+
+  fitHeroMedia();
+  window.addEventListener('resize', requestFitHeroMedia);
+  window.addEventListener('load', fitHeroMedia);
+
   // Seção "Projetos": o bloco de texto da esquerda deve ficar do mesmo
   // tamanho e na mesma altura da IMAGEM do carrossel à direita (ignorando
   // os tabs, que ficam acima da imagem). Medimos a altura real dos tabs
@@ -153,6 +228,33 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', updateHscroll);
     reduceMotionQuery.addEventListener?.('change', updateHscroll);
     updateHscroll();
+
+    // Corrige o "deep link" para #servicos/#projetos vindo de outra página
+    // (ex.: o link "Voltar aos projetos" nas páginas de obra usa
+    // "../../index.html#projetos"). Como os dois painéis ocupam a mesma
+    // posição vertical dentro do bloco de rolagem horizontal — só a
+    // horizontal muda entre eles — o salto de âncora nativo do navegador
+    // não sabe qual painel mostrar e sempre cai no início do bloco
+    // (Serviços), deixando "Projetos" com a posição errada e a sensação de
+    // uma seção em branco ao rolar. Aqui recalculamos e corrigimos a
+    // posição assim que a página termina de carregar.
+    function fixHscrollDeepLink() {
+      const hash = window.location.hash;
+      if (hash !== '#servicos' && hash !== '#projetos') return;
+      if (!isHscrollActive()) return;
+
+      const panelIndex = hash === '#projetos' ? 1 : 0;
+      const headerOffset = header ? header.offsetHeight : 0;
+      window.scrollTo({ top: hscrollTargetY(panelIndex) - headerOffset, behavior: 'auto' });
+      updateHscroll();
+    }
+
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    fixHscrollDeepLink();
+    window.addEventListener('load', fixHscrollDeepLink);
   }
 
   if (mobileToggle && mobileMenu) {
@@ -160,10 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const isActive = mobileMenu.classList.toggle('active');
       mobileToggle.classList.toggle('active');
       document.body.style.overflow = isActive ? 'hidden' : '';
-
-      if (isActive) {
-        header?.classList.remove('header-hidden');
-      }
     });
 
     mobileMenu.querySelectorAll('.mobile-nav-link, .mobile-cta').forEach(el => {
