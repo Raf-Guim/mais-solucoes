@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('projectApp');
 
   if (!project || !root) {
-    if (root) root.innerHTML = '<main class="project-main"><div class="project-container"><h1>Projeto não encontrado</h1><p><a href="../../index.html#projetos">Voltar aos projetos</a></p></div></main>';
+    if (root) root.innerHTML = '<main class="project-main"><div class="project-container"><h1>Projeto não encontrado</h1><p><a href="../../index.html">Voltar aos projetos</a></p></div></main>';
     return;
   }
 
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="project-scroll-progress" aria-hidden="true"><span id="projectScrollProgress"></span></div>
         <div class="project-container project-header-inner">
           <a class="project-logo" href="../../index.html" aria-label="Mais Soluções — início"><img src="../../logo.png" alt="Mais Soluções"></a>
-          <a class="project-back" href="../../index.html#projetos"><i data-lucide="arrow-left"></i><span>Voltar aos projetos</span></a>
+          <a class="project-back" href="../../index.html"><i data-lucide="arrow-left"></i><span>Voltar aos projetos</span></a>
         </div>
       </header>
       <main>
