@@ -6,23 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.getElementById('mobileMenuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
 
+  // Helper usado por todo listener de scroll/resize abaixo que precisa
+  // rodar no máximo uma vez por frame: agenda `fn` no próximo
+  // requestAnimationFrame e ignora chamadas repetidas até lá.
+  function rafThrottle(fn) {
+    let ticking = false;
+    return () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        fn();
+        ticking = false;
+      });
+    };
+  }
+
   // Header fica sempre colado e visível — só alterna o fundo mais opaco
   // quando a página já rolou um pouco (efeito ativado no CSS via .scrolled).
-  let headerTicking = false;
-
   function updateHeaderState() {
     if (!header) return;
     header.classList.toggle('scrolled', window.scrollY > 50);
   }
 
-  function onScroll() {
-    if (headerTicking) return;
-    headerTicking = true;
-    requestAnimationFrame(() => {
-      updateHeaderState();
-      headerTicking = false;
-    });
-  }
+  const onScroll = rafThrottle(updateHeaderState);
 
   updateHeaderState();
 
@@ -89,15 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroMediaCol.style.maxWidth = `${Math.round(maxW)}px`;
   }
 
-  let heroMediaTicking = false;
-  function requestFitHeroMedia() {
-    if (heroMediaTicking) return;
-    heroMediaTicking = true;
-    requestAnimationFrame(() => {
-      fitHeroMedia();
-      heroMediaTicking = false;
-    });
-  }
+  const requestFitHeroMedia = rafThrottle(fitHeroMedia);
 
   fitHeroMedia();
   window.addEventListener('resize', requestFitHeroMedia);
@@ -213,15 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (hscrollWrapper && hscrollTrack) {
-    let hscrollTicking = false;
-    const onHscrollScroll = () => {
-      if (hscrollTicking) return;
-      hscrollTicking = true;
-      requestAnimationFrame(() => {
-        updateHscroll();
-        hscrollTicking = false;
-      });
-    };
+    const onHscrollScroll = rafThrottle(updateHscroll);
 
     window.addEventListener('scroll', onHscrollScroll, { passive: true });
     window.addEventListener('resize', updateHscroll);
